@@ -73,17 +73,14 @@ quietly {
 
     *<Paste your path here>
 
-    * Joao Pedro Azevedo
       else if inlist("`c(username)'","azeve") {
         global inputdata   "<add your personal folder path>"
       }
 	  
-	* Ayca Donmez  
 	  else if inlist("`c(username)'","adonmez") {
         global inputdata   "<add your personal folder path>"
       }
 	  
-	*Savvy Brar
 	   else if inlist("`c(username)'","sbrar") {
         global inputdata   "C:/Users/`c(username)'/Github"
       }

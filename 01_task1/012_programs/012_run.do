@@ -11,13 +11,21 @@
 * Setup for this task
 *-------------------------------------------------------------------------------
 
-* Check that project profile was loaded, otherwise stops code
-cap assert ${unicef_test_profile_is_loaded} == 1
-if _rc != 0 {
-  noi disp as error "Please execute the profile_unicef-test.do in the root of this project and try again."
-  exit
-}
+	* Check that project profile was loaded, otherwise stops code
+	cap assert ${unicef_test_profile_is_loaded} == 1
+	if _rc != 0 {
+	  noi disp as error "Please execute the profile_unicef-test.do in the root of this project and try again."
+	  exit
+	}
 
+	* Directory where to find the CSVs (from the repo)
+	local input_dir "${clone}/01_task1/011_rawdata/hosted_in_repo"
+  
+	* Directory where to save the newly created DTAs
+	local output_dir "${clone}/01_task1/011_rawdata"
+
+	* Directory where to save outputs
+	local save_output "${clone}/01_task1/013_outputs"
 *-------------------------------------------------------------------------------
 
 
@@ -28,24 +36,14 @@ if _rc != 0 {
 *-------------------------------------------------------------------------------
 * [STEP 1] Import and clean rawdata from CSVs hosted in repo into DTAs and prepare files for merging
 
-	* Directory where to find the CSVs (from the repo)
-	global input_dir "${clone}/01_task1/011_rawdata/hosted_in_repo"
-  
-	* Directory where to save the newly created DTAs
-	global output_dir "${clone}/01_task1/011_rawdata"
-
-	* Directory where to save outputs
-	global save_output "${clone}/01_task1/013_outputs"
+	
 	
 	/**************************
 			ANC SBA Data 
 	**************************/
  
 	* Import the ANC and SBA CSV data file downloaded from the UNICEF global data warehouse
-	import delimited using "${input_dir}/anc_sba_countries.csv", clear
-
-	* Save file
-	save "${output_dir}/anc_sba.dta", replace
+	import delimited using "`input_dir'/anc_sba_countries.csv", clear
 
 	*Clean file
 		** Drop unnecessary vars
@@ -81,7 +79,7 @@ if _rc != 0 {
 		order iso3 country year indicator value
 		
 	*Save file
-	save "${output_dir}/anc_sba.dta", replace	
+	save "`output_dir'/anc_sba.dta", replace	
 
 	/**************************
 		WPP 2022 Data 
@@ -89,12 +87,9 @@ if _rc != 0 {
  
 	* Import the WPP projected 2022 file, which includes births
 	clear
-	import delimited using "${input_dir}/wpp_proj.csv", varnames(13) clear
+	import delimited using "`input_dir'/wpp_proj.csv", varnames(13) clear
 
-	* Save file
-	save "${output_dir}/wpp_proj.dta", replace
-
-	*Clean file
+	* Clean file
 		** Keep WPP data only at country level
 		keep if strpos(type, "Country")
 		
@@ -129,8 +124,8 @@ if _rc != 0 {
 			drop births
 			rename births_2 births
 		
-	*Save file
-	save "${output_dir}/wpp_proj.dta", replace	
+	* Save file
+	save "`output_dir'/wpp_proj.dta", replace	
 	
 	
 	/**************************************
@@ -139,10 +134,7 @@ if _rc != 0 {
 	
 	* Import the on/off track file
 	clear
-	import delimited using "${input_dir}/on_off_track_countries.csv", varnames(1) clear
-
-	* Save file
-	save "${output_dir}/status.dta", replace
+	import delimited using "`input_dir'/on_off_track_countries.csv", varnames(1) clear
 	
 	* Rename variables so that they match for merging files
 	rename officialname country
@@ -155,7 +147,7 @@ if _rc != 0 {
 	replace status = "off-track" if strpos(status, "Acceleration")
 	
 	* Save file
-	save "${output_dir}/status.dta", replace
+	save "`output_dir'/status.dta", replace
 	
 *-------------------------------------------------------------------------------	
 
@@ -163,19 +155,19 @@ if _rc != 0 {
 
 	* Merge anc_sba with wpp_2022 
 	clear 
-	use "${output_dir}/anc_sba.dta"
+	use "`output_dir'/anc_sba.dta"
 	
-	merge m:1 iso3 using "${output_dir}/wpp_proj.dta"
+	merge m:1 iso3 using "`output_dir'/wpp_proj.dta"
 	drop if _merge == 2
 	drop _merge
 	
 	* Merge with status file (on/off track
-	merge m:1 iso3 using "${output_dir}/status.dta"
+	merge m:1 iso3 using "`output_dir'/status.dta"
 	drop if _merge != 3
 	drop _merge
 
 	* Save file
-	save "${output_dir}/combined.dta", replace
+	save "`output_dir'/combined.dta", replace
 
 *-------------------------------------------------------------------------------	
 
@@ -194,10 +186,10 @@ if _rc != 0 {
 	drop births wgt_cvg
 
 	* Save population weighted coverage average
-	save "${output_dir}/pop_wgt_cvg_avg.dta", replace
+	save "`output_dir'/pop_wgt_cvg_avg.dta", replace
 	
 	*Export results to CSV file 
-	export excel using "${save_output}/anc_sba_pop_wgt_cvg_avg.xlsx", firstrow(variables) replace
+	export excel using "`save_output'/anc_sba_pop_wgt_cvg_avg.xlsx", firstrow(variables) replace
 	
 *-------------------------------------------------------------------------------	
 
@@ -217,7 +209,7 @@ if _rc != 0 {
 		bar(1, color(pink))
 
 		** Save the graph
-		graph export "${save_output}/anc4.png", as(png) replace
+		graph export "`save_output'/anc4.png", as(png) replace
 
 		* For SBA
 		graph bar (asis) wgt_cvg_avg if indicator == "sba", over(status, label(angle(45))) ///
@@ -232,8 +224,7 @@ if _rc != 0 {
 		bar(1, color(purple))
 
 		* Save the graph
-		graph export "${save_output}/sba.png", as(png) replace
+		graph export "`save_output'/sba.png", as(png) replace
 
-	
-	
+			
 *-----------------------------------------------------------------------------
