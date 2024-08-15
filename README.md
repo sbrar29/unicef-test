@@ -16,6 +16,17 @@ This repository contains Stata code to calculate the population-weighted coverag
 - `anc4.png`: Under 01_task1 > 013_outputs - ANC4 visualization
 - `sba.png`: Under 01_task1 > 013_outputs - SBA visualization
 
+# Task 2: Data Perspective on the evolution of education for 4- to 5-year-old children 
 
+## Description
+This repository contains Stata code to analyze data from Zimbabwe (MICS 2019) and generate a Data Perspective.
+
+## Files
+- `022_run.do`: Under 02_task2 > 022_programs - Stata script to analyze data and generate table and graph.
+- `pop_wgt_cvg_avg.dta`: Under 02_task2 > 021_rawdata - Resulting Stata dataset
+- `table_1.doc`: Under 02_task2 > 023_outputs - Summary statistics table (editable in Word)
+- `sum_stats.png`: Under 02_task2 > 023_outputs - Summary statistics table
+- `results.csv`: Under 02_task2 > 023_outputs - Results output for month-by-month analysis
+- `graph.png`: Under 02_task2 > 023_outputs - Month by month visualization 
 
 
