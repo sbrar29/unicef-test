@@ -27,6 +27,7 @@ This repository contains Stata code to analyze data from Zimbabwe (MICS 2019) an
 - `table_1.doc`: Under 02_task2 > 023_outputs - Summary statistics table (editable in Word)
 - `sum_stats.png`: Under 02_task2 > 023_outputs - Summary statistics table
 - `results.csv`: Under 02_task2 > 023_outputs - Results output for month-by-month analysis
-- `graph.png`: Under 02_task2 > 023_outputs - Month by month visualization 
+- `graph.png`: Under 02_task2 > 023_outputs - Month by month visualization
+- `data_perspective.pdf`: Under 02_task2 > 023_outputs - Data Perspective PDF
 
 
