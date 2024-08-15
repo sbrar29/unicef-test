@@ -11,10 +11,10 @@ This repository contains Stata code to calculate the population-weighted coverag
 
 ## Files
 - `012_run.do`: Under 01_task1 > 012_programs - Stata script to calculate population-weighted coverage for ANC and SBA for on-track and off-track countries.
-- `pop_wgt_cvg_avg.dta`: Resulting Stata dataset with the calculated coverage.
-- `anc_sba_pop_wgt_cvg_avg.xlsx`: XLSX file with the results
-- `anc4.png`: ANC4 visualization
-- `sba.png`: SBA visualization
+- `pop_wgt_cvg_avg.dta`: Under 01_task1 > 011_rawdata - Resulting Stata dataset with the calculated coverage.
+- `anc_sba_pop_wgt_cvg_avg.xlsx`: Under 01_task1 > 013_outputs - XLSX file with the results
+- `anc4.png`: Under 01_task1 > 013_outputs - ANC4 visualization
+- `sba.png`: Under 01_task1 > 013_outputs - SBA visualization
 
 
 
